@@ -1,0 +1,33 @@
+{
+    "name": "merch-one/php-api-sdk",
+    "description": "SDK for MerchOne API integration",
+    "keywords": [
+        "merch-one",
+        "the customization group",
+        "api",
+        "sdk",
+        "integration",
+        "print on demand"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^6|^7",
+        "tightenco/collect": "^8.83",
+        "ext-json": "*",
+        "ext-ctype": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MerchOne\\PhpSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "The Customization Group"
+        }
+    ],
+    "minimum-stability": "dev"
+}
