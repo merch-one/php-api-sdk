@@ -6,7 +6,7 @@ This package provide a set of tools that allow developers to easily integrate wi
 
 ## Installation
 ```shell
-composer require merch-one/php-sdk
+composer require merch-one/php-api-sdk
 ```
 
 ## Overview
