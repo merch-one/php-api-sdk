@@ -1,6 +1,6 @@
 <?php
 
-namespace MerchOne\PhpSdk\Exceptions;
+namespace MerchOne\PhpApiSdk\Exceptions;
 
 use Exception;
 

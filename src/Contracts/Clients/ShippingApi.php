@@ -1,6 +1,6 @@
 <?php
 
-namespace MerchOne\PhpSdk\Contracts\Clients;
+namespace MerchOne\PhpApiSdk\Contracts\Clients;
 
 use Tightenco\Collect\Support\Enumerable;
 

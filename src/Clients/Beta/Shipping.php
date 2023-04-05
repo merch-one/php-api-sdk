@@ -1,11 +1,11 @@
 <?php
 
-namespace MerchOne\PhpSdk\Clients\Beta;
+namespace MerchOne\PhpApiSdk\Clients\Beta;
 
-use MerchOne\PhpSdk\Clients\BaseApiClient;
-use MerchOne\PhpSdk\Contracts\Clients\ShippingApi;
-use MerchOne\PhpSdk\Exceptions\MerchOneApiClientException;
-use MerchOne\PhpSdk\Exceptions\MerchOneApiServerException;
+use MerchOne\PhpApiSdk\Clients\BaseApiClient;
+use MerchOne\PhpApiSdk\Contracts\Clients\ShippingApi;
+use MerchOne\PhpApiSdk\Exceptions\MerchOneApiClientException;
+use MerchOne\PhpApiSdk\Exceptions\MerchOneApiServerException;
 use Tightenco\Collect\Support\Enumerable;
 
 class Shipping extends BaseApiClient implements ShippingApi

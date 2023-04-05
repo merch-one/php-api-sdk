@@ -1,12 +1,12 @@
 <?php
 
-namespace MerchOne\PhpSdk\Clients\Beta;
+namespace MerchOne\PhpApiSdk\Clients\Beta;
 
-use MerchOne\PhpSdk\Clients\BaseApiClient;
-use MerchOne\PhpSdk\Contracts\Clients\OrdersApi;
-use MerchOne\PhpSdk\Exceptions\MerchOneApiClientException;
-use MerchOne\PhpSdk\Exceptions\MerchOneApiServerException;
-use MerchOne\PhpSdk\Util\Data;
+use MerchOne\PhpApiSdk\Clients\BaseApiClient;
+use MerchOne\PhpApiSdk\Contracts\Clients\OrdersApi;
+use MerchOne\PhpApiSdk\Exceptions\MerchOneApiClientException;
+use MerchOne\PhpApiSdk\Exceptions\MerchOneApiServerException;
+use MerchOne\PhpApiSdk\Util\Data;
 use Tightenco\Collect\Support\Enumerable;
 
 class Orders extends BaseApiClient implements OrdersApi
