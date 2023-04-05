@@ -1,17 +1,18 @@
 <?php
 
-namespace MerchOne\PhpSdk\Contracts\Http;
+namespace MerchOne\PhpApiSdk\Contracts\Http;
 
-use MerchOne\PhpSdk\Contracts\Clients\CatalogApi;
-use MerchOne\PhpSdk\Contracts\Clients\OrdersApi;
-use MerchOne\PhpSdk\Contracts\Clients\ShippingApi;
+use MerchOne\PhpApiSdk\Contracts\Clients\CatalogApi;
+use MerchOne\PhpApiSdk\Contracts\Clients\OrdersApi;
+use MerchOne\PhpApiSdk\Contracts\Clients\ShippingApi;
 
 interface HttpClient
 {
     /**
      * @param  string  $version
+     * @param  array  $clientOptions
      */
-    public function __construct(string $version);
+    public function __construct(string $version, array $clientOptions = []);
 
     /**
      * @param  string  $user

@@ -1,17 +1,17 @@
 <?php
 
-namespace MerchOne\PhpSdk\Util;
+namespace MerchOne\PhpApiSdk\Util;
 
-use MerchOne\PhpSdk\Exceptions\InvalidApiVersionException;
+use MerchOne\PhpApiSdk\Exceptions\InvalidApiVersionException;
 use ReflectionClass;
 use Tightenco\Collect\Support\Collection;
 
 final class MerchOneApi
 {
     /**
-     * Base URL for MerchOne API.
+     * Host URL for MerchOne API.
      */
-    public const BASE_URL = 'https://api.merchone.com/';
+    public const HOST = 'https://api.merchone.com/';
 
     /**
      * Available API versions.
@@ -20,20 +20,20 @@ final class MerchOneApi
 
     /**
      * @param  string  $version
-     * @param  string|null  $baseUrl
+     * @param  string|null  $host
      * @return string
      *
      * @throws InvalidApiVersionException
      */
-    public static function getBaseUrl(string $version = self::VERSION_BETA, string $baseUrl = null): string
+    public static function getBaseUrl(string $version = self::VERSION_BETA, string $host = null): string
     {
-        $baseUrl = $baseUrl ?? self::BASE_URL;
+        $host = $host ?? self::HOST;
 
-        if (substr($baseUrl, -1) !== '/') {
-            $baseUrl .= '/';
+        if (substr($host, -1) !== '/') {
+            $host .= '/';
         }
 
-        return $baseUrl . self::getVersionPath($version);
+        return $host . self::getVersionPath($version);
     }
 
     /**

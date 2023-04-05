@@ -31,10 +31,10 @@ composer require merch-one/php-api-sdk
 
 ### Basic Usage
 
-**Create an instance of `MerchOne\PhpSdk\Http\Client`**
+**Create an instance of `MerchOne\PhpApiSdk\Http\Client`**
 
 ```php
-use MerchOne\PhpSdk\Http\Client;
+use MerchOne\PhpApiSdk\Http\Client;
 
 class MyService
  {
@@ -59,15 +59,15 @@ class MyService
         );
         
         /* Interact with Catalog API */
-        /** @var \MerchOne\PhpSdk\Contracts\Clients\CatalogApi $catalogApi */
+        /** @var \MerchOne\PhpApiSdk\Contracts\Clients\CatalogApi $catalogApi */
         $catalogApi = $this->httpClient->catalog();
         
         /* Interact with Orders API */
-        /** @var \MerchOne\PhpSdk\Contracts\Clients\OrdersApi $ordersApi */
+        /** @var \MerchOne\PhpApiSdk\Contracts\Clients\OrdersApi $ordersApi */
         $ordersApi = $this->httpClient->orders();
         
         /* Interact with Shipping API */
-        /** @var \MerchOne\PhpSdk\Contracts\Clients\ShippingApi $shippingApi */
+        /** @var \MerchOne\PhpApiSdk\Contracts\Clients\ShippingApi $shippingApi */
         $shippingApi = $this->httpClient->shipping();
         
         // switch API version you interact with
@@ -78,13 +78,20 @@ class MyService
     }
 }
 ```
+- The `Client` class accepts two parameters:
+    - `$version` - API version to interact with. Default value is `beta`. 
+      - See [Helpers](#helpers) for available versions.
+    - `$clientOptions` - Custom options to use with request.
+      - See [Guzzle Documentation](https://docs.guzzlephp.org/en/stable/request-options.html) for available options.
+      - The `User-Agent`, `Accept` and `Content-Type` headers, as well as `http_error` properties **CAN NOT** be overwritten !
+
 
 --- 
 
 ### Helpers
 
 ```php
-use MerchOne\PhpSdk\Util\MerchOneApi;
+use MerchOne\PhpApiSdk\Util\MerchOneApi;
 
 // get the list of all available API versions
 MerchOneApi::getVersions();

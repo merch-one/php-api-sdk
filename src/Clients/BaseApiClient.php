@@ -1,15 +1,15 @@
 <?php
 
-namespace MerchOne\PhpSdk\Clients;
+namespace MerchOne\PhpApiSdk\Clients;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Response as PsrResponse;
-use MerchOne\PhpSdk\Exceptions\InvalidCredentialsException;
-use MerchOne\PhpSdk\Exceptions\MerchOneApiClientException;
-use MerchOne\PhpSdk\Exceptions\MerchOneApiServerException;
-use MerchOne\PhpSdk\Http\Response;
-use MerchOne\PhpSdk\Util\Data;
+use MerchOne\PhpApiSdk\Exceptions\InvalidCredentialsException;
+use MerchOne\PhpApiSdk\Exceptions\MerchOneApiClientException;
+use MerchOne\PhpApiSdk\Exceptions\MerchOneApiServerException;
+use MerchOne\PhpApiSdk\Http\Response;
+use MerchOne\PhpApiSdk\Util\Data;
 use Tightenco\Collect\Support\Collection;
 use Tightenco\Collect\Support\Enumerable;
 

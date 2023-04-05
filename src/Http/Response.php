@@ -2,7 +2,7 @@
 
 /** @noinspection JsonEncodingApiUsageInspection */
 
-namespace MerchOne\PhpSdk\Http;
+namespace MerchOne\PhpApiSdk\Http;
 
 use ArrayAccess;
 use GuzzleHttp\Psr7\Response as PsrResponse;
@@ -233,7 +233,7 @@ class Response implements ArrayAccess
      * Get the value for a given offset.
      *
      * @param  string  $offset
-     * @return mixed
+     * @return string|int|float|array|object|null
      */
     public function offsetGet($offset)
     {
@@ -282,7 +282,7 @@ class Response implements ArrayAccess
      *
      * @param  string  $method
      * @param  array  $parameters
-     * @return mixed
+     * @return string|int|float|array|object|null
      */
     public function __call(string $method, array $parameters)
     {

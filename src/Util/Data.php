@@ -2,7 +2,7 @@
 
 /** @noinspection ALL */
 
-namespace MerchOne\PhpSdk\Util;
+namespace MerchOne\PhpApiSdk\Util;
 
 use Tightenco\Collect\Support\Collection;
 use Tightenco\Collect\Support\Enumerable;

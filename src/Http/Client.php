@@ -1,18 +1,19 @@
 <?php
 
-namespace MerchOne\PhpSdk\Http;
+namespace MerchOne\PhpApiSdk\Http;
 
 use GuzzleHttp\Client as GuzzleClient;
-use MerchOne\PhpSdk\Clients\BaseApiClient;
-use MerchOne\PhpSdk\Contracts\Clients\CatalogApi;
-use MerchOne\PhpSdk\Contracts\Clients\OrdersApi;
-use MerchOne\PhpSdk\Contracts\Clients\ShippingApi;
-use MerchOne\PhpSdk\Contracts\Http\HttpClient as HttpClientContract;
-use MerchOne\PhpSdk\Exceptions\InvalidApiVersionException;
-use MerchOne\PhpSdk\Util\MerchOneApi;
-use MerchOne\PhpSdk\Util\Str;
+use MerchOne\PhpApiSdk\Clients\BaseApiClient;
+use MerchOne\PhpApiSdk\Contracts\Clients\CatalogApi;
+use MerchOne\PhpApiSdk\Contracts\Clients\OrdersApi;
+use MerchOne\PhpApiSdk\Contracts\Clients\ShippingApi;
+use MerchOne\PhpApiSdk\Contracts\Http\HttpClient;
+use MerchOne\PhpApiSdk\Exceptions\InvalidApiVersionException;
+use MerchOne\PhpApiSdk\Util\MerchOneApi;
+use MerchOne\PhpApiSdk\Util\Str;
+use Tightenco\Collect\Support\Collection;
 
-class Client implements HttpClientContract
+class Client implements HttpClient
 {
     /**
      * GuzzleHttp client instance.
@@ -31,27 +32,34 @@ class Client implements HttpClientContract
     /**
      * @var string|null
      */
-    protected ?string $baseUrl = null;
+    protected ?string $host = null;
 
     /**
-     * List of default request headers.
+     * List of default GuzzleClient options.
      *
-     * @var array|string[]
+     * @var array
      */
-    protected array $headers = [
-        'User-Agent'   => 'MerchOne PHP SDK v0.0.1',
-        'Accept'       => 'application/json',
-        'Content-Type' => 'application/json',
+    protected array $clientOptions = [
+        'headers' => [
+            'User-Agent'   => 'MerchOne PHP SDK v1.0.2',
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
+        ],
+        'http_errors' => false,
     ];
 
     /**
      * @param  string  $version
+     * @param  array  $clientOptions
      *
      * @throws InvalidApiVersionException
      */
-    public function __construct(string $version)
-    {
+    public function __construct(
+        string $version = MerchOneApi::VERSION_BETA,
+        array $clientOptions = []
+    ) {
         $this->apiVersion = $version;
+        $this->setClientOptions($clientOptions);
 
         $this->buildClient();
     }
@@ -63,7 +71,7 @@ class Client implements HttpClientContract
      *
      * @throws InvalidApiVersionException
      */
-    public function auth(string $user, string $key): Client
+    public function auth(string $user, string $key): HttpClient
     {
         $this->basicAuth(
             base64_encode("{$user}:{$key}")
@@ -78,9 +86,9 @@ class Client implements HttpClientContract
      *
      * @throws InvalidApiVersionException
      */
-    public function basicAuth(string $token): Client
+    public function basicAuth(string $token): HttpClient
     {
-        $this->headers['Authorization'] = 'Basic ' . $token;
+        $this->clientOptions['headers']['Authorization'] = 'Basic ' . $token;
 
         $this->buildClient();
 
@@ -88,14 +96,14 @@ class Client implements HttpClientContract
     }
 
     /**
-     * @param  string  $baseUrl
+     * @param  string  $host
      * @return $this
      *
      * @throws InvalidApiVersionException
      */
-    public function setBaseUrl(string $baseUrl): Client
+    public function setHost(string $host): HttpClient
     {
-        $this->baseUrl = $baseUrl;
+        $this->host = $host;
 
         $this->buildClient();
 
@@ -108,7 +116,7 @@ class Client implements HttpClientContract
      *
      * @throws InvalidApiVersionException
      */
-    public function setVersion(string $version): Client
+    public function setVersion(string $version): HttpClient
     {
         $this->apiVersion = $version;
 
@@ -169,9 +177,47 @@ class Client implements HttpClientContract
     {
         $name = Str::title($name);
         $version = Str::title($this->apiVersion);
-        $client = "MerchOne\\PhpSdk\\Clients\\{$version}\\{$name}";
+        $client = "MerchOne\\PhpApiSdk\\Clients\\{$version}\\{$name}";
 
         return new $client($this->httpClient);
+    }
+
+    /**
+     * @param  array  $options
+     * @return void
+     */
+    private function setClientOptions(array $options): void
+    {
+        $this->clientOptions = (new Collection($this->clientOptions))
+            ->mergeRecursive(
+                $this->mapClientOptions($options)
+            )->toArray();
+    }
+
+    /**
+     * @param  array  $options
+     * @return array
+     */
+    private function mapClientOptions(array $options): array
+    {
+        return (new Collection($options))->map(
+            function ($value, $key) {
+                if ($key === 'headers' && is_array($value)) {
+                    return (new Collection($value))
+                        ->mapWithKeys(
+                            static fn ($value, $key) => [Str::title($key) => $value]
+                        )->filter(
+                            fn ($value, $key) => ! array_key_exists($key, $this->clientOptions['headers'])
+                        )->toArray();
+                }
+
+                if (array_key_exists($key, $this->clientOptions)) {
+                    return null;
+                }
+
+                return $value;
+            }
+        )->filter(static fn ($value) => ! empty($value))->toArray();
     }
 
     /**
@@ -181,10 +227,11 @@ class Client implements HttpClientContract
      */
     private function buildClient(): void
     {
-        $this->httpClient = new GuzzleClient([
-            'base_uri'    => MerchOneApi::getBaseUrl($this->apiVersion, $this->baseUrl),
-            'headers'     => $this->headers,
-            'http_errors' => false,
-        ]);
+        $this->clientOptions['base_uri'] = MerchOneApi::getBaseUrl(
+            $this->apiVersion,
+            $this->host
+        );
+
+        $this->httpClient = new GuzzleClient($this->clientOptions);
     }
 }

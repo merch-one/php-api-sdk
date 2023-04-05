@@ -1,6 +1,6 @@
 <?php
 
-namespace MerchOne\PhpSdk\Util;
+namespace MerchOne\PhpApiSdk\Util;
 
 final class Str
 {
