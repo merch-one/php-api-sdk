@@ -2,6 +2,13 @@
     PHP SDK for MerchOne API integration
 </h2>
 
+<p align="center">
+    <a href="https://packagist.org/packages/merch-one/php-api-sdk"><img src="https://img.shields.io/packagist/v/merch-one/php-api-sdk?color=orange&style=flat-square" alt="Packagist Version"></a>
+    <a href="https://packagist.org/packages/merch-one/php-api-sdk"><img src="https://img.shields.io/packagist/l/merch-one/php-api-sdk?color=brightgreen&style=flat-square" alt="License"></a>
+    <a href="https://packagist.org/packages/merch-one/php-api-sdk"><img src="https://img.shields.io/packagist/dependency-v/merch-one/php-api-sdk/php?style=flat-square" alt="Minimum PHP version"></a>
+    <a href="https://packagist.org/packages/merch-one/php-api-sdk"><img src="https://img.shields.io/github/last-commit/merch-one/php-api-sdk?color=blue&style=flat-square" alt="GitHub last commit"></a>
+</p>
+
 This package provide a set of tools that allow developers to easily integrate with MerchOne API.
 
 ## Installation
@@ -112,3 +119,12 @@ The package can throw the following exceptions:
 | *MerchOneApiServerException*  | A server error occurred.                            |
 | *InvalidApiVersionException*  | An invalid API version was provided to the Client.  |
 | *InvalidCredentialsException* | Invalid API credentials was provided to the Client. |
+
+### Tests
+
+Package comes with a set of tests to ensure that everything works as expected.
+To run tests, execute the following command:
+
+```shell 
+./vendor/bin/phpunit
+```
