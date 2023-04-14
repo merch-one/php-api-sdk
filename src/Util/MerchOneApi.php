@@ -61,6 +61,14 @@ final class MerchOneApi
     }
 
     /**
+     * @return string
+     */
+    public static function getSdkVersion(): string
+    {
+        return (new PackageInfo())->getVersionName();
+    }
+
+    /**
      * @param  string  $version
      * @return void
      *

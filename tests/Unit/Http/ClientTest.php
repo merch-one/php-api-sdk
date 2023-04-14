@@ -9,6 +9,7 @@ use MerchOne\PhpApiSdk\Contracts\Http\HttpClient;
 use MerchOne\PhpApiSdk\Exceptions\InvalidApiVersionException;
 use MerchOne\PhpApiSdk\Http\Client;
 use MerchOne\PhpApiSdk\Tests\TestCase;
+use MerchOne\PhpApiSdk\Util\MerchOneApi;
 use ReflectionException;
 
 class ClientTest extends TestCase
@@ -109,6 +110,7 @@ class ClientTest extends TestCase
                 'user-agent'   => 'test-user-agent',
                 'accept'       => 'test-accept',
                 'content-type' => 'test-content-type',
+                'x-library'    => 'test-library',
             ],
             'http_errors' => true,
         ]);
@@ -116,12 +118,17 @@ class ClientTest extends TestCase
         $options = $this->getObjectProperty($client, 'clientOptions');
 
         $this->assertArrayHasKey('headers', $options);
+        $this->assertEquals(MerchOneApi::getSdkVersion(), $options['headers']['X-Library']);
+
         $this->assertArrayHasKey('User-Agent', $options['headers']);
-        $this->assertEquals('MerchOne PHP SDK v1.0.2', $options['headers']['User-Agent']);
+        $this->assertStringContainsString('php@' . PHP_VERSION, $options['headers']['User-Agent']);
+
         $this->assertEquals('application/json', $options['headers']['Accept']);
         $this->assertEquals('application/json', $options['headers']['Content-Type']);
+
         $this->assertArrayHasKey('http_errors', $options);
         $this->assertFalse($options['http_errors']);
+
         $this->assertArrayHasKey('X-Test', $options['headers']);
         $this->assertEquals('test-header', $options['headers']['X-Test']);
     }

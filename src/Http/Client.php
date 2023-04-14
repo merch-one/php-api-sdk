@@ -41,7 +41,8 @@ class Client implements HttpClient
      */
     protected array $clientOptions = [
         'headers' => [
-            'User-Agent'   => 'MerchOne PHP SDK v1.0.2',
+            'User-Agent'   => null,
+            'X-Library'    => null,
             'Accept'       => 'application/json',
             'Content-Type' => 'application/json',
         ],
@@ -60,6 +61,7 @@ class Client implements HttpClient
     ) {
         $this->apiVersion = $version;
         $this->setClientOptions($clientOptions);
+        $this->setClientHeaders();
 
         $this->buildClient();
     }
@@ -233,5 +235,23 @@ class Client implements HttpClient
         );
 
         $this->httpClient = new GuzzleClient($this->clientOptions);
+    }
+
+    /**
+     * @return void
+     */
+    private function setClientHeaders(): void
+    {
+        $this->clientOptions['headers']['X-Library'] = MerchOneApi::getSdkVersion();
+
+        $userAgent = new Collection([
+            'host'     => $_SERVER['HTTP_HOST'] ?? 'unknown',
+            'software' => $_SERVER['SERVER_SOFTWARE'] ?? 'unknown',
+            'php'      => PHP_VERSION,
+        ]);
+
+        $this->clientOptions['headers']['User-Agent'] = $userAgent->map(
+            static fn ($value, $key) => "{$key}@{$value}"
+        )->implode(' ');
     }
 }
